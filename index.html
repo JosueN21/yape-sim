@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yape Simulador - Pro</title>
+    <title>Yape Simulador - Pro Final</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -21,27 +21,29 @@
             align-items: center;
             justify-content: flex-start;
             /* Aumentamos el padding para dar espacio al logo arriba */
-            padding-top: 85px; 
+            padding-top: 100px; 
             min-height: 100vh;
             position: relative;
         }
 
         .hidden { display: none !important; }
 
-        /* --- LOGO YAPE ARRIBA IZQUIERDA --- */
+        /* --- LOGO YAPE ARRIBA IZQUIERDA (CORREGIDO) --- */
         .top-logo {
             position: absolute;
             top: 25px;
             left: 20px;
-            width: 75px; /* Ajusta el tamaño según tu imagen */
+            width: 75px;
             height: auto;
-            z-index: 90;
+            /* Asegura que esté detrás del ticket y botón si se tocan */
+            z-index: 10; 
         }
 
+        /* --- BOTÓN CERRAR (X) CORREGIDO --- */
         .btn-close-circle {
             position: absolute;
-            top: 15px;
-            right: 15px;
+            top: 15px; 
+            right: 15px; /* Más separado de la esquina para no chocar */
             width: 42px;
             height: 42px;
             background-color: rgba(255, 255, 255, 0.18);
@@ -51,12 +53,14 @@
             justify-content: center;
             cursor: pointer;
             border: none;
+            /* Asegura que esté por encima de todo */
             z-index: 100;
         }
 
         .btn-close-circle:hover { background-color: rgba(255, 255, 255, 0.25); }
-        .btn-close-circle svg { stroke: white; stroke-width: 2.5; }
+        .btn-close-circle svg { stroke: white; stroke-width: 2.5; width: 22px; height: 22px; }
 
+        /* --- PANEL DE CONTROL --- */
         .setup-panel {
             background: #fff;
             padding: 30px;
@@ -67,9 +71,11 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
+            /* Le damos un poco más de margen para que no se pegue al logo */
+            margin-top: 20px; 
+            z-index: 20; /* Por encima del logo si se tocan */
         }
 
-        .setup-panel h2 { color: #5d158e; text-align: center; margin-bottom: 10px; font-size: 22px; }
         .setup-panel input { padding: 14px; border: 1px solid #ddd; border-radius: 12px; outline: none; font-size: 15px; width: 100%; }
         .setup-panel input:focus { border-color: #00ba9f; }
 
@@ -79,6 +85,7 @@
         }
         .btn-generate:hover { background-color: #009681; }
 
+        /* --- RECIBO (ticket-card) --- */
         .ticket-card {
             background-color: white;
             width: 345px;
@@ -87,6 +94,9 @@
             box-shadow: 0 8px 30px rgba(0,0,0,0.3);
             animation: fadeIn 0.4s ease-out;
             margin-bottom: 20px;
+            /* CORRECCIÓN: Separación con el logo */
+            margin-top: 20px;
+            z-index: 20; /* Por encima del logo si se tocan */
         }
 
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
@@ -130,6 +140,7 @@
         .ads-box {
             width: 345px;
             animation: fadeIn 0.6s ease-out;
+            z-index: 20;
         }
         .ads-box img {
             width: 100%;
@@ -144,16 +155,15 @@
     <img src="yapesimbolo.png" alt="Yape" class="top-logo hidden" id="view-logo">
 
     <button class="btn-close-circle hidden" id="btn-close" onclick="showSetup()">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
             <line x1="18" y1="6" x2="6" y2="18"></line>
             <line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
     </button>
 
     <div class="setup-panel" id="view-setup">
-        <h2>Nuevo Yape</h2>
         <input type="text" id="inNombre" placeholder="Nombre de contacto">
-        <input type="number" id="inMonto" placeholder="Monto (ej: 500 o 5.50)" step="any">
+        <input type="number" id="inMonto" placeholder="Monto (ej: 500)" step="any">
         <input type="text" id="inCel" placeholder="Número de celular" maxlength="9">
         <button class="btn-generate" onclick="generateTicket()">Generar Recibo</button>
     </div>
@@ -208,7 +218,7 @@
         <div class="transaction-data">
             <div class="trans-title">DATOS DE LA TRANSACCIÓN</div>
             <div class="data-item"><span>Nro. de celular</span><span class="item-value" id="resCel">*** *** 000</span></div>
-            <div class="data-item"><span>Destino</span><span class="item-value">Yape</span></div>
+            <div class="data-item"><span>Destino</span><span class="item-value">Dale</span></div>
             <div class="data-item"><span>Nro. de operación</span><span class="item-value" id="resOp">---</span></div>
         </div>
     </div>
@@ -222,16 +232,11 @@
             let nombreInput = document.getElementById('inNombre').value || "Contacto";
             if (!nombreInput.endsWith('*')) { nombreInput += '*'; }
 
-            const inMontoValue = document.getElementById('inMonto').value || "0";
-            const inCelular = document.getElementById('inCel').value;
-            
-            const montoNum = parseFloat(inMontoValue);
-            const montoFinal = Number.isInteger(montoNum) ? montoNum.toString() : montoNum.toFixed(2);
+            const montoNum = parseFloat(document.getElementById('inMonto').value || "0");
+            const montoFinal = Number.isInteger(montoNum) ? montoNum : montoNum.toFixed(2);
 
-            let celularFinal = "*** *** ***";
-            if (inCelular.length >= 3) {
-                celularFinal = `*** *** ${inCelular.slice(-3)}`;
-            }
+            const celular = document.getElementById('inCel').value;
+            const celularFinal = celular.length >= 3 ? `*** *** ${celular.slice(-3)}` : "*** *** ***";
 
             const ahora = new Date();
             const meses = ["ene.", "feb.", "mar.", "abr.", "may.", "jun.", "jul.", "ago.", "sep.", "oct.", "nov.", "dic."];
@@ -260,7 +265,7 @@
             document.getElementById('view-setup').classList.add('hidden');
             document.getElementById('view-ticket').classList.remove('hidden');
             document.getElementById('view-ads').classList.remove('hidden');
-            document.getElementById('view-logo').classList.remove('hidden'); // Muestra el logo
+            document.getElementById('view-logo').classList.remove('hidden');
             document.getElementById('btn-close').classList.remove('hidden');
         }
 
@@ -268,7 +273,7 @@
             document.getElementById('view-setup').classList.remove('hidden');
             document.getElementById('view-ticket').classList.add('hidden');
             document.getElementById('view-ads').classList.add('hidden');
-            document.getElementById('view-logo').classList.add('hidden'); // Oculta el logo
+            document.getElementById('view-logo').classList.add('hidden');
             document.getElementById('btn-close').classList.add('hidden');
         }
     </script>
