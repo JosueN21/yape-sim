@@ -20,30 +20,29 @@
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            /* Aumentamos el padding para dar espacio al logo arriba */
-            padding-top: 100px; 
+            /* Ajuste de espacio inicial */
+            padding-top: 25px; 
             min-height: 100vh;
             position: relative;
         }
 
         .hidden { display: none !important; }
 
-        /* --- LOGO YAPE ARRIBA IZQUIERDA (CORREGIDO) --- */
+        /* --- LOGO YAPE (CORREGIDO POSICIÓN) --- */
         .top-logo {
-            position: absolute;
-            top: 25px;
-            left: 20px;
+            align-self: flex-start;
+            margin-left: 20px;
+            margin-bottom: 15px; /* Espacio para que no lo tape el ticket */
             width: 75px;
             height: auto;
-            /* Asegura que esté detrás del ticket y botón si se tocan */
-            z-index: 10; 
+            z-index: 10;
         }
 
         /* --- BOTÓN CERRAR (X) CORREGIDO --- */
         .btn-close-circle {
             position: absolute;
-            top: 15px; 
-            right: 15px; /* Más separado de la esquina para no chocar */
+            top: 25px; /* Alineado con el logo */
+            right: 20px;
             width: 42px;
             height: 42px;
             background-color: rgba(255, 255, 255, 0.18);
@@ -53,11 +52,8 @@
             justify-content: center;
             cursor: pointer;
             border: none;
-            /* Asegura que esté por encima de todo */
             z-index: 100;
         }
-
-        .btn-close-circle:hover { background-color: rgba(255, 255, 255, 0.25); }
         .btn-close-circle svg { stroke: white; stroke-width: 2.5; width: 22px; height: 22px; }
 
         /* --- PANEL DE CONTROL --- */
@@ -65,88 +61,58 @@
             background: #fff;
             padding: 30px;
             border-radius: 24px;
-            width: 100%;
+            width: 90%;
             max-width: 380px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.3);
             display: flex;
             flex-direction: column;
             gap: 15px;
-            /* Le damos un poco más de margen para que no se pegue al logo */
-            margin-top: 20px; 
-            z-index: 20; /* Por encima del logo si se tocan */
+            margin-top: 20px;
         }
+        .setup-panel input { padding: 14px; border: 1px solid #ddd; border-radius: 12px; outline: none; }
+        .btn-generate { background-color: #00ba9f; color: white; border: none; padding: 16px; border-radius: 12px; font-weight: bold; cursor: pointer; }
 
-        .setup-panel input { padding: 14px; border: 1px solid #ddd; border-radius: 12px; outline: none; font-size: 15px; width: 100%; }
-        .setup-panel input:focus { border-color: #00ba9f; }
-
-        .btn-generate {
-            background-color: #00ba9f; color: white; border: none; padding: 16px; border-radius: 12px;
-            font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; transition: 0.3s;
-        }
-        .btn-generate:hover { background-color: #009681; }
-
-        /* --- RECIBO (ticket-card) --- */
+        /* --- RECIBO --- */
         .ticket-card {
             background-color: white;
-            width: 345px;
+            width: 350px;
             border-radius: 24px;
-            padding: 20px;
+            padding: 22px;
             box-shadow: 0 8px 30px rgba(0,0,0,0.3);
             animation: fadeIn 0.4s ease-out;
-            margin-bottom: 20px;
-            /* CORRECCIÓN: Separación con el logo */
-            margin-top: 20px;
-            z-index: 20; /* Por encima del logo si se tocan */
+            margin-bottom: 25px;
+            z-index: 20;
         }
 
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
 
         .header-row { display: flex; justify-content: space-between; align-items: center; }
         .yapeaste-text { color: #742392; font-weight: 700; font-size: 24px; letter-spacing: -1.2px; }
-        
-        .share-box {
-            color: #00ba9f;
-            font-size: 14px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
+        .share-box { color: #00ba9f; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 5px; }
         
         .amount-row { margin-top: 10px; color: #3b355a; display: flex; align-items: baseline; }
         .currency { font-size: 31px; font-weight: 700; margin-right: 4px; position: relative; top: -11px; letter-spacing: -1px; }
-        .amount-val { font-size: 52px; font-weight: 700; letter-spacing: -1px; line-height: 1; }
+        .amount-val { font-size: 56px; font-weight: 700; letter-spacing: -1.5px; line-height: 1; }
         
-        .contact-name { font-size: 22px; font-weight: 700; color: #3b355a; margin-top: 2px; }
+        .contact-name { font-size: 23px; font-weight: 700; color: #3b355a; margin-top: 5px; }
         
-        .date-row { display: flex; align-items: center; gap: 8px; color: #6a7783; font-size: 14px; margin-top: 8px; }
+        .date-row { display: flex; align-items: center; gap: 8px; color: #6a7783; font-size: 15px; margin-top: 8px; }
         .date-item-inner { display: flex; align-items: center; gap: 5px; }
         
-        hr { border: 0; border-top: 1.5px solid #caced2; margin: 18px 0; width: 100%; }
+        hr { border: 0; border-top: 1.5px solid #f0f2f4; margin: 18px 0; width: 100%; }
         
         .security-row { display: flex; justify-content: space-between; align-items: center; }
-        .sec-label-container { display: flex; align-items: center; gap: 6px; }
-        .sec-label { color: #8da1ad; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
-        .info-icon { background-color: #00ba9f; color: white; width: 16px; height: 16px; border-radius: 50%; font-size: 10px; display: flex; align-items: center; justify-content: center; font-weight: bold; }
-        
-        .boxes span { background-color: #f2f5f7; width: 28px; height: 34px; display: inline-flex; justify-content: center; align-items: center; border-radius: 6px; font-weight: 700; margin-left: 3px; font-size: 16px; color: #3b355a; }
-        
+        .sec-label { color: #8da1ad; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+        .boxes span { background-color: #f2f5f7; width: 28px; height: 34px; display: inline-flex; justify-content: center; align-items: center; border-radius: 6px; font-weight: 700; margin-left: 3px; color: #3b355a; }
+
         .transaction-data { margin-top: 5px; }
         .trans-title { color: #8da1ad; font-size: 11px; font-weight: 700; margin-bottom: 12px; text-transform: uppercase; }
-        .data-item { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 14px; }
-        .item-label { color: #3b355a; }
+        .data-item { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 15px; }
         .item-value { color: #3b355a; font-weight: 700; }
 
-        .ads-box {
-            width: 345px;
-            animation: fadeIn 0.6s ease-out;
-            z-index: 20;
-        }
-        .ads-box img {
-            width: 100%;
-            border-radius: 18px;
-            display: block;
-        }
+        /* --- PUBLICIDAD --- */
+        .ads-container { width: 350px; }
+        .ads-container img { width: 100%; border-radius: 18px; display: block; }
 
     </style>
 </head>
@@ -191,12 +157,12 @@
         
         <div class="date-row">
             <div class="date-item-inner">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6a7783" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" ry="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6a7783" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
                 <span id="resFecha">---</span>
             </div>
             <span style="color: #dce2e6;">|</span>
             <div class="date-item-inner">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6a7783" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6a7783" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                 <span id="resHora">---</span>
             </div>
         </div>
@@ -204,10 +170,7 @@
         <hr>
 
         <div class="security-row">
-            <div class="sec-label-container">
-                <span class="sec-label">CÓDIGO DE SEGURIDAD</span>
-                <div class="info-icon">i</div>
-            </div>
+            <div class="sec-label">CÓDIGO DE SEGURIDAD</div>
             <div class="boxes">
                 <span id="c1">0</span><span id="c2">0</span><span id="c3">0</span>
             </div>
@@ -218,23 +181,23 @@
         <div class="transaction-data">
             <div class="trans-title">DATOS DE LA TRANSACCIÓN</div>
             <div class="data-item"><span>Nro. de celular</span><span class="item-value" id="resCel">*** *** 000</span></div>
-            <div class="data-item"><span>Destino</span><span class="item-value">Dale</span></div>
+            <div class="data-item"><span>Destino</span><span class="item-value">Yape</span></div>
             <div class="data-item"><span>Nro. de operación</span><span class="item-value" id="resOp">---</span></div>
         </div>
     </div>
 
-    <div class="ads-box hidden" id="view-ads">
-        <img src="popeyes.png" alt="Promo">
+    <div class="ads-container hidden" id="view-ads">
+        <img src="popeyes.png" alt="Publicidad">
     </div>
 
     <script>
         function generateTicket() {
-            let nombreInput = document.getElementById('inNombre').value || "Contacto";
-            if (!nombreInput.endsWith('*')) { nombreInput += '*'; }
+            let nombre = document.getElementById('inNombre').value || "Contacto";
+            if (!nombre.endsWith('*')) nombre += '*';
 
-            const montoNum = parseFloat(document.getElementById('inMonto').value || "0");
+            const montoNum = parseFloat(document.getElementById('inMonto').value || 0);
             const montoFinal = Number.isInteger(montoNum) ? montoNum : montoNum.toFixed(2);
-
+            
             const celular = document.getElementById('inCel').value;
             const celularFinal = celular.length >= 3 ? `*** *** ${celular.slice(-3)}` : "*** *** ***";
 
@@ -243,24 +206,25 @@
             const dia = ahora.getDate().toString().padStart(2, '0');
             const mes = meses[ahora.getMonth()];
             const anio = ahora.getFullYear();
-            let horas = ahora.getHours();
-            const ampm = horas >= 12 ? 'p. m.' : 'a. m.';
-            horas = horas % 12 || 12;
-            const minutos = ahora.getMinutes().toString().padStart(2, '0');
+            let h = ahora.getHours();
+            const ampm = h >= 12 ? 'p. m.' : 'a. m.';
+            h = h % 12 || 12;
+            const m = ahora.getMinutes().toString().padStart(2, '0');
 
-            const codSeg = Math.floor(100 + Math.random() * 900).toString();
             const nroOp = Math.floor(10000000 + Math.random() * 90000000).toString();
 
-            document.getElementById('resNombre').innerText = nombreInput;
+            document.getElementById('resNombre').innerText = nombre;
             document.getElementById('resMonto').innerText = montoFinal;
             document.getElementById('resCel').innerText = celularFinal;
             document.getElementById('resFecha').innerText = `${dia} ${mes} ${anio}`;
-            document.getElementById('resHora').innerText = `${horas}:${minutos} ${ampm}`;
+            document.getElementById('resHora').innerText = `${h}:${m} ${ampm}`;
             document.getElementById('resOp').innerText = nroOp;
             
-            document.getElementById('c1').innerText = codSeg[0];
-            document.getElementById('c2').innerText = codSeg[1];
-            document.getElementById('c3').innerText = codSeg[2];
+            // Código de seguridad aleatorio
+            const cod = Math.floor(100 + Math.random() * 900).toString();
+            document.getElementById('c1').innerText = cod[0];
+            document.getElementById('c2').innerText = cod[1];
+            document.getElementById('c3').innerText = cod[2];
 
             document.getElementById('view-setup').classList.add('hidden');
             document.getElementById('view-ticket').classList.remove('hidden');
