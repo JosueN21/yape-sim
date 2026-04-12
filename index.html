@@ -20,17 +20,28 @@
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            padding-top: 60px;
+            /* Aumentamos el padding para dar espacio al logo arriba */
+            padding-top: 85px; 
             min-height: 100vh;
             position: relative;
         }
 
         .hidden { display: none !important; }
 
+        /* --- LOGO YAPE ARRIBA IZQUIERDA --- */
+        .top-logo {
+            position: absolute;
+            top: 25px;
+            left: 20px;
+            width: 75px; /* Ajusta el tamaño según tu imagen */
+            height: auto;
+            z-index: 90;
+        }
+
         .btn-close-circle {
             position: absolute;
-            top: 15px;    /* Lo subimos un poquito más */
-            right: 15px;  /* Lo alejamos más hacia la derecha */
+            top: 15px;
+            right: 15px;
             width: 42px;
             height: 42px;
             background-color: rgba(255, 255, 255, 0.18);
@@ -116,7 +127,6 @@
         .item-label { color: #3b355a; }
         .item-value { color: #3b355a; font-weight: 700; }
 
-        /* Estilo Publicidad */
         .ads-box {
             width: 345px;
             animation: fadeIn 0.6s ease-out;
@@ -130,6 +140,8 @@
     </style>
 </head>
 <body>
+
+    <img src="yapesimbolo.png" alt="Yape" class="top-logo hidden" id="view-logo">
 
     <button class="btn-close-circle hidden" id="btn-close" onclick="showSetup()">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
@@ -248,6 +260,7 @@
             document.getElementById('view-setup').classList.add('hidden');
             document.getElementById('view-ticket').classList.remove('hidden');
             document.getElementById('view-ads').classList.remove('hidden');
+            document.getElementById('view-logo').classList.remove('hidden'); // Muestra el logo
             document.getElementById('btn-close').classList.remove('hidden');
         }
 
@@ -255,6 +268,7 @@
             document.getElementById('view-setup').classList.remove('hidden');
             document.getElementById('view-ticket').classList.add('hidden');
             document.getElementById('view-ads').classList.add('hidden');
+            document.getElementById('view-logo').classList.add('hidden'); // Oculta el logo
             document.getElementById('btn-close').classList.add('hidden');
         }
     </script>
