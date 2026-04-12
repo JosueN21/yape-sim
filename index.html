@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yape Simulador - Clon Perfecto</title>
+    <title>Yape Simulador - Pro</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -19,19 +19,18 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
+            padding-top: 60px;
             min-height: 100vh;
-            padding: 20px;
             position: relative;
         }
 
         .hidden { display: none !important; }
 
-        /* --- BOTÓN CERRAR (X) --- */
         .btn-close-circle {
-            position: fixed;
-            top: 25px;
-            right: 25px;
+            position: absolute;
+            top: 20px;
+            right: 20px;
             width: 45px;
             height: 45px;
             background-color: rgba(255, 255, 255, 0.15);
@@ -48,7 +47,6 @@
         .btn-close-circle:hover { background-color: rgba(255, 255, 255, 0.25); }
         .btn-close-circle svg { stroke: white; stroke-width: 2.5; }
 
-        /* --- PANEL DE CONTROL --- */
         .setup-panel {
             background: #fff;
             padding: 30px;
@@ -71,7 +69,6 @@
         }
         .btn-generate:hover { background-color: #009681; }
 
-        /* --- RECIBO --- */
         .ticket-card {
             background-color: white;
             width: 345px;
@@ -79,6 +76,7 @@
             padding: 20px;
             box-shadow: 0 8px 30px rgba(0,0,0,0.3);
             animation: fadeIn 0.4s ease-out;
+            margin-bottom: 20px;
         }
 
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
@@ -86,20 +84,13 @@
         .header-row { display: flex; justify-content: space-between; align-items: center; }
         .yapeaste-text { color: #742392; font-weight: 700; font-size: 24px; letter-spacing: -1.2px; }
         
-        /* CORRECCIÓN: Botón Compartir con icono real */
         .share-box {
             color: #00ba9f;
             font-size: 14px;
             font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 6px; /* Un poquito más de espacio */
-        }
-
-        /* Estilo para la imagen del icono extraída del ejemplo */
-        .share-icon-img {
-            width: 20px; /* Tamaño adecuado para el texto */
-            height: auto;
+            gap: 5px;
         }
         
         .amount-row { margin-top: 10px; color: #3b355a; display: flex; align-items: baseline; }
@@ -126,12 +117,23 @@
         .item-label { color: #3b355a; }
         .item-value { color: #3b355a; font-weight: 700; }
 
+        /* Estilo Publicidad */
+        .ads-box {
+            width: 345px;
+            animation: fadeIn 0.6s ease-out;
+        }
+        .ads-box img {
+            width: 100%;
+            border-radius: 18px;
+            display: block;
+        }
+
     </style>
 </head>
 <body>
 
     <button class="btn-close-circle hidden" id="btn-close" onclick="showSetup()">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
             <line x1="18" y1="6" x2="6" y2="18"></line>
             <line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
@@ -149,7 +151,13 @@
         <div class="header-row">
             <span class="yapeaste-text">¡Yapeaste!</span>
             <div class="share-box">
-                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAACv0lEQV4EaVUW0gUYRj+Z9bZ2XVsdy0v64YhRUpERUGRRWRIdSFSgl4CK6K66K5XoYde9CK66SmsByGo6KEXoYclFpIdSUtE5YUsy7IsK8u6u7uzu7M7M7M7/8wYdrfVOfD9M8f5vvm+73znm2+G4Xke4XAYNputv89nFwU96Yq5RFWY8B2L87y8m57K/mP5wz4uXb6v4bA3h33pqu3b5tCAsHwDwnINCMs3ICw/b4HwPwvI/v297f+MOfAfi/eNOfAfy3Ity7O4VpbnWJZrca0sy5Msf8zyLMuyLMuyLMuyLMuyLMuyLMuyLMuyLMuyLMuyLMuyLOfg4Y8Xf8w5+F8sW5ZtWbZl2ZZlW5ZtWbZl2ZZlW5ZtWbZl2ZZlW5ZtWbYdyLIs5+AfG+f/2Niw//04w9H7O86OPhO9v+Ps6DPR+zvOjqM5h6P3d5wdx3I5+p/PjhNf5f9GnsRzeE488TXxxFfEE554wuv95X7vL/Z7b7HfexPfX/8D19fX48/eXp+XfX6f9/v6vR6Pl71ervN55TqvXOfVyXVeudyf75PrfF/W5//98yU5Xv4wHofX6/Ue6PP5XwT6fK8Cfd6XAV96KeBLvwz408uBP70WBP5vEIR//wP5X4bAfx2C4A8LAn+XFfBv5wX8258X8O8UAn/Hk6D/ZRL0v5Xw95bCvzsl4f99Kfn8v68S/t0pCft4XcL+/55B9P+d45SjS5SjS5SjS5SjS5SjS5SjS5SjS5SjS5SjS5SjS5SjS5SjS5R5Xm5vB8f6/S7X7w/86vd5O8uBPv+/7/T73E6n0+50Op1Op9PpdDqdTqfT6XQ6nU6nR6l0Op1Op9M5HP4DR+eN+I6j6Xw9f4u6U58I538RzreKcFonwulbRHhX55Tz3eT7fB8I54t5Ihwv44l9Ilyf5/X6fA4v6vW9fPULq55uYf8HjP9YpS4/XqYAAAAASUVORK5CYII=" alt="Compartir" class="share-icon-img">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <circle cx="18" cy="5" r="3" stroke="#00ba9f" stroke-width="2"/>
+                    <circle cx="6" cy="12" r="3" stroke="#00ba9f" stroke-width="2"/>
+                    <circle cx="18" cy="19" r="3" stroke="#00ba9f" stroke-width="2"/>
+                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" stroke="#00ba9f" stroke-width="2"/>
+                    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" stroke="#00ba9f" stroke-width="2"/>
+                </svg>
                 Compartir
             </div>
         </div>
@@ -162,7 +170,7 @@
         
         <div class="date-row">
             <div class="date-item-inner">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6a7783" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6a7783" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" ry="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
                 <span id="resFecha">---</span>
             </div>
             <span style="color: #dce2e6;">|</span>
@@ -194,9 +202,15 @@
         </div>
     </div>
 
+    <div class="ads-box hidden" id="view-ads">
+        <img src="popeyes.png" alt="Promo">
+    </div>
+
     <script>
         function generateTicket() {
-            const nombre = document.getElementById('inNombre').value || "Contacto";
+            let nombreInput = document.getElementById('inNombre').value || "Contacto";
+            if (!nombreInput.endsWith('*')) { nombreInput += '*'; }
+
             const inMontoValue = document.getElementById('inMonto').value || "0";
             const inCelular = document.getElementById('inCel').value;
             
@@ -221,7 +235,7 @@
             const codSeg = Math.floor(100 + Math.random() * 900).toString();
             const nroOp = Math.floor(10000000 + Math.random() * 90000000).toString();
 
-            document.getElementById('resNombre').innerText = nombre;
+            document.getElementById('resNombre').innerText = nombreInput;
             document.getElementById('resMonto').innerText = montoFinal;
             document.getElementById('resCel').innerText = celularFinal;
             document.getElementById('resFecha').innerText = `${dia} ${mes} ${anio}`;
@@ -234,12 +248,14 @@
 
             document.getElementById('view-setup').classList.add('hidden');
             document.getElementById('view-ticket').classList.remove('hidden');
+            document.getElementById('view-ads').classList.remove('hidden');
             document.getElementById('btn-close').classList.remove('hidden');
         }
 
         function showSetup() {
             document.getElementById('view-setup').classList.remove('hidden');
             document.getElementById('view-ticket').classList.add('hidden');
+            document.getElementById('view-ads').classList.add('hidden');
             document.getElementById('btn-close').classList.add('hidden');
         }
     </script>
