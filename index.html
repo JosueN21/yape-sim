@@ -27,7 +27,6 @@
 
         .hidden { display: none !important; }
 
-        /* --- LOGO YAPE --- */
         .top-logo {
             align-self: flex-start;
             margin-left: 20px;
@@ -37,7 +36,6 @@
             z-index: 10;
         }
 
-        /* --- BOTÓN CERRAR (X) --- */
         .btn-close-circle {
             position: absolute;
             top: 25px;
@@ -55,7 +53,6 @@
         }
         .btn-close-circle svg { stroke: white; stroke-width: 2.5; width: 22px; height: 22px; }
 
-        /* --- PANEL DE CONTROL --- */
         .setup-panel {
             background: #fff;
             padding: 30px;
@@ -70,11 +67,10 @@
         }
         .setup-panel input { padding: 14px; border: 1px solid #ddd; border-radius: 12px; outline: none; font-size: 15px; width: 100%; }
         
-        /* --- ESTILOS PARA LOS BOTONES DE MONTO --- */
         .preset-amounts {
             display: flex;
             justify-content: space-between;
-            gap: 5px; /* Reducido un poco para que quepan 5 */
+            gap: 5px;
             margin-top: -5px;
         }
         .btn-preset {
@@ -84,20 +80,19 @@
             color: #3b355a;
             padding: 8px 0;
             border-radius: 8px;
-            font-size: 12px; /* Fuente un poco más pequeña */
+            font-size: 12px;
             font-weight: 700;
             cursor: pointer;
-            transition: 0.2s;
+            transition: 0.1s;
         }
         .btn-preset:active {
             background-color: #00ba9f;
             color: white;
-            border-color: #00ba9f;
+            transform: scale(0.95);
         }
 
         .btn-generate { background-color: #00ba9f; color: white; border: none; padding: 16px; border-radius: 12px; font-weight: bold; cursor: pointer; font-size: 16px; }
 
-        /* --- RECIBO --- */
         .ticket-card {
             background-color: white;
             width: 350px;
@@ -174,11 +169,11 @@
         <input type="text" id="inNombre" placeholder="Nombre de contacto">
         
         <div class="preset-amounts">
-            <button class="btn-preset" onclick="setMonto('0.50')">0.50</button>
-            <button class="btn-preset" onclick="setMonto('1.50')">1.50</button>
-            <button class="btn-preset" onclick="setMonto('2')">2</button>
-            <button class="btn-preset" onclick="setMonto('2.50')">2.50</button>
-            <button class="btn-preset" onclick="setMonto('3')">3</button>
+            <button class="btn-preset" onclick="setMonto(0.50)">0.50</button>
+            <button class="btn-preset" onclick="setMonto(1.50)">1.50</button>
+            <button class="btn-preset" onclick="setMonto(2.00)">2.00</button>
+            <button class="btn-preset" onclick="setMonto(2.50)">2.50</button>
+            <button class="btn-preset" onclick="setMonto(3.00)">3.00</button>
         </div>
 
         <input type="number" id="inMonto" placeholder="Monto (S/)" step="any">
@@ -236,7 +231,7 @@
         <div class="transaction-data">
             <div class="trans-title">DATOS DE LA TRANSACCIÓN</div>
             <div class="data-item"><span>Nro. de celular</span><span class="item-value" id="resCel">*** *** 000</span></div>
-            <div class="data-item"><span>Destino</span><span class="item-value">Yape</span></div>
+            <div class="data-item"><span>Destino</span><span class="item-value">Dale</span></div>
             <div class="data-item"><span>Nro. de operación</span><span class="item-value" id="resOp">---</span></div>
         </div>
     </div>
@@ -246,8 +241,32 @@
     </div>
 
     <script>
-        function setMonto(valor) {
-            document.getElementById('inMonto').value = valor;
+        // Variables para controlar la suma y el reinicio
+        let contadorSuma = 0;
+        let ultimoMontoPresionado = null;
+
+        function setMonto(montoPresionado) {
+            const input = document.getElementById('inMonto');
+            let montoActual = parseFloat(input.value) || 0;
+
+            // Si presionas el MISMO botón que la vez anterior
+            if (ultimoMontoPresionado === montoPresionado) {
+                contadorSuma++; // Aumentamos el contador de clics
+                
+                if (contadorSuma >= 5) {
+                    // Si ya se presionó 5 veces (llegó al límite), al siguiente clic REINICIA
+                    input.value = montoPresionado.toFixed(2);
+                    contadorSuma = 0; // Reseteamos el contador
+                } else {
+                    // Si está dentro del rango 1-4, seguimos SUMANDO
+                    input.value = (montoActual + montoPresionado).toFixed(2);
+                }
+            } else {
+                // Si presionas un botón DIFERENTE, reseteamos todo y ponemos ese monto
+                input.value = montoPresionado.toFixed(2);
+                ultimoMontoPresionado = montoPresionado;
+                contadorSuma = 0;
+            }
         }
 
         function generateTicket() {
