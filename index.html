@@ -68,8 +68,34 @@
             gap: 15px;
             margin-top: 20px;
         }
-        .setup-panel input { padding: 14px; border: 1px solid #ddd; border-radius: 12px; outline: none; }
-        .btn-generate { background-color: #00ba9f; color: white; border: none; padding: 16px; border-radius: 12px; font-weight: bold; cursor: pointer; }
+        .setup-panel input { padding: 14px; border: 1px solid #ddd; border-radius: 12px; outline: none; font-size: 15px; width: 100%; }
+        
+        /* --- ESTILOS PARA LOS BOTONES DE MONTO --- */
+        .preset-amounts {
+            display: flex;
+            justify-content: space-between;
+            gap: 5px; /* Reducido un poco para que quepan 5 */
+            margin-top: -5px;
+        }
+        .btn-preset {
+            flex: 1;
+            background-color: #f2f5f7;
+            border: 1px solid #ddd;
+            color: #3b355a;
+            padding: 8px 0;
+            border-radius: 8px;
+            font-size: 12px; /* Fuente un poco más pequeña */
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-preset:active {
+            background-color: #00ba9f;
+            color: white;
+            border-color: #00ba9f;
+        }
+
+        .btn-generate { background-color: #00ba9f; color: white; border: none; padding: 16px; border-radius: 12px; font-weight: bold; cursor: pointer; font-size: 16px; }
 
         /* --- RECIBO --- */
         .ticket-card {
@@ -98,11 +124,10 @@
         .date-row { display: flex; align-items: center; gap: 8px; color: #6a7783; font-size: 15px; margin-top: 8px; }
         .date-item-inner { display: flex; align-items: center; gap: 5px; }
         
-        /* --- LÍNEAS DIVISORIAS --- */
         hr { 
             border: 0; 
-            border-top: 1.5px solid #f0f2f4; /* Color gris original restaurado */
-            margin: 8px 0; /* Posición pegada mantenida */
+            border-top: 1.5px solid #f0f2f4; 
+            margin: 8px 0; 
             width: 100%; 
         }
         
@@ -147,8 +172,17 @@
 
     <div class="setup-panel" id="view-setup">
         <input type="text" id="inNombre" placeholder="Nombre de contacto">
-        <input type="number" id="inMonto" placeholder="Monto (ej: 500)" step="any">
-        <input type="text" id="inCel" placeholder="Número de celular" maxlength="9">
+        
+        <div class="preset-amounts">
+            <button class="btn-preset" onclick="setMonto('0.50')">0.50</button>
+            <button class="btn-preset" onclick="setMonto('1.50')">1.50</button>
+            <button class="btn-preset" onclick="setMonto('2')">2</button>
+            <button class="btn-preset" onclick="setMonto('2.50')">2.50</button>
+            <button class="btn-preset" onclick="setMonto('3')">3</button>
+        </div>
+
+        <input type="number" id="inMonto" placeholder="Monto (S/)" step="any">
+        <input type="text" id="inCel" placeholder="Número de celular (opcional)" maxlength="9">
         <button class="btn-generate" onclick="generateTicket()">Generar Recibo</button>
     </div>
 
@@ -212,6 +246,10 @@
     </div>
 
     <script>
+        function setMonto(valor) {
+            document.getElementById('inMonto').value = valor;
+        }
+
         function generateTicket() {
             let nombre = document.getElementById('inNombre').value || "Contacto";
             if (!nombre.endsWith('*')) nombre += '*';
@@ -219,8 +257,17 @@
             const montoNum = parseFloat(document.getElementById('inMonto').value || 0);
             const montoFinal = Number.isInteger(montoNum) ? montoNum : montoNum.toFixed(2);
             
-            const celular = document.getElementById('inCel').value;
-            const celularFinal = celular.length >= 3 ? `*** *** ${celular.slice(-3)}` : "*** *** ***";
+            let inCelValue = document.getElementById('inCel').value.trim();
+            let numParaMostrar = "";
+
+            if (inCelValue === "") {
+                let randomCel = "9" + Math.floor(10000000 + Math.random() * 90000000).toString();
+                numParaMostrar = randomCel.slice(-3);
+            } else {
+                numParaMostrar = inCelValue.slice(-3);
+            }
+            
+            const celularFinal = `*** *** ${numParaMostrar}`;
 
             const ahora = new Date();
             const meses = ["ene.", "feb.", "mar.", "abr.", "may.", "jun.", "jul.", "ago.", "sep.", "oct.", "nov.", "dic."];
